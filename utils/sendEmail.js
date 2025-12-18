@@ -1,18 +1,10 @@
-const nodemailer = require("nodemailer");
+const { Resend } = require("resend");
+
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 const sendEmail = async ({ subject, html }) => {
-  const transporter = nodemailer.createTransport({
-    host: process.env.EMAIL_HOST,
-    port: process.env.EMAIL_PORT,
-    secure: false,
-    auth: {
-      user: process.env.EMAIL_USER,
-      pass: process.env.EMAIL_PASS,
-    },
-  });
-
-  await transporter.sendMail({
-    from: `"Portfolio Contact" <${process.env.EMAIL_USER}>`,
+  await resend.emails.send({
+    from: "Portfolio <onboarding@resend.dev>",
     to: process.env.EMAIL_TO,
     subject,
     html,
