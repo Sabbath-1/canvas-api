@@ -27,7 +27,7 @@ exports.createSubmission = async (req, res) => {
         <p><strong>Subject:</strong> ${subject}</p>
         <p>${message}</p>
       `,
-    }).catch(err => {
+    }).then(() => console.log("📨 sendEmail resolved")).catch(err => {
       console.error("Email failed:", err);
     });
 
