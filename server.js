@@ -16,5 +16,5 @@ app.use("/api/forms", require("./routes/formRoutes"));
 
 const PORT = process.env.PORT;
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+  console.log('Server running ');
 });
