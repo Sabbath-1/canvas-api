@@ -1,4 +1,5 @@
 const Submission = require("../models/Submission");
+const sendEmail = require("../utils/sendEmail");
 
 exports.createSubmission = async (req, res) => {
   try {
@@ -15,12 +16,23 @@ exports.createSubmission = async (req, res) => {
       message,
     });
 
-    res.status(201).json({
-      success: true,
-      data: submission,
+    res.status(201).json({ success: true });
+
+    sendEmail({
+      subject: `New Contact: ${subject}`,
+      html: `
+        <h3>New Contact Message</h3>
+        <p><strong>Name:</strong> ${name}</p>
+        <p><strong>Email:</strong> ${email}</p>
+        <p><strong>Subject:</strong> ${subject}</p>
+        <p>${message}</p>
+      `,
+    }).catch(err => {
+      console.error("Email failed:", err);
     });
+
   } catch (error) {
-    console.error("Form submission error:", error);
+    console.error("Form error:", error);
     res.status(500).json({ error: "Server error" });
   }
 };
